@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import useWordle from "../hooks/useWordle"
+import GameGridRow from "./GameGridRow"
 
 const GameGrid = () => {
 
-  const { handleKeyPress } = useWordle()
+  const { solution, turn, guess, pastGuesses, gameOver, handleKeyPress } = useWordle()
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress)
@@ -11,11 +12,17 @@ const GameGrid = () => {
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [handleKeyPress])
 
+  useEffect(() => {
+    console.log(pastGuesses, turn, gameOver)
+  })
+
   return (
     <div className='game-grid'>
-        {[...Array(42)].map((_,i)=>{
-            return <div key={i} className="game-grid__tile">{i}</div>
+        {pastGuesses.map(() => {
+          return <GameGridRow />
         })}
+        {solution}
+        {guess}
     </div>
   )
 }
