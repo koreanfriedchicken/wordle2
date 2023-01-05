@@ -2,22 +2,39 @@
   width: 100%;
   height: 100vh;
   background-color: black;
-  font-size: clamp(.5rem, 2.5vmin, 1.25rem)
+  font-size: clamp(.5rem, 2.5vmin, 1.25rem);
+  display: grid;
+  place-items: center;
 }
 
 /* GAME GRID STYLES */
 .game-grid{
   color: white;
-  display: grid;
-  grid-template-columns: repeat(6, 4em);
-  grid-template-rows: repeat(7, 4.5em);
-  gap: .5em;
+}
+
+.game-grid__row{
+  display: flex;
 }
 
 .game-grid__tile{
   display: grid;
   place-items: center;
-  border: .05em solid grey;
+  border: .05em solid #3a3a3c;
+  width: 3em;
+  height: 3em;
+  margin: .1em;
+}
+
+.grey{
+  background-color: #3a3a3c;
+}
+
+.green{
+  background-color: #53843b;
+}
+
+.yellow{
+  background-color: #b59f3b;
 }
 
 /* KEYBOARD STYLES */

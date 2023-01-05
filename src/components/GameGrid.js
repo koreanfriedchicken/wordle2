@@ -12,17 +12,14 @@ const GameGrid = () => {
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [handleKeyPress])
 
-  useEffect(() => {
-    console.log(pastGuesses, turn, gameOver)
-  })
-
   return (
     <div className='game-grid'>
-        {pastGuesses.map(() => {
-          return <GameGridRow />
+        {pastGuesses.map((pastGuess, i) => {
+          if(turn === i) {
+            return <GameGridRow key={i} guess={guess} />
+          } else 
+            return <GameGridRow key={i} pastGuess={pastGuess}/>
         })}
-        {solution}
-        {guess}
     </div>
   )
 }
