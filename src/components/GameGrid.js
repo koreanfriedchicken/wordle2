@@ -1,20 +1,6 @@
-import { useEffect } from "react"
-import useWordle from "../hooks/useWordle"
 import GameGridRow from "./GameGridRow"
 
-const GameGrid = () => {
-
-  const { solution, turn, guess, pastGuesses, gameOver, usedLetters, handleKeyPress } = useWordle()
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress)
-
-    return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [handleKeyPress])
-
-  useEffect(() => {
-    console.log(usedLetters)
-  })
+const GameGrid = ({ pastGuesses, guess, turn }) => {
 
   return (
     <div className='game-grid'>
