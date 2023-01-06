@@ -19,7 +19,7 @@ const GameGridRow = ({ pastGuess, guess }) => {
     return(
       <div className='game-grid__row'>
         {pastGuess.map((l, i) => (
-          <div key={i} className={`${l.color} game-grid__tile`}>{l.key}</div>
+          <div key={i} className={`${l.color} game-grid__tile filled`}>{l.key}</div>
         ))}
       </div>
     )

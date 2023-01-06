@@ -4,13 +4,17 @@ import GameGridRow from "./GameGridRow"
 
 const GameGrid = () => {
 
-  const { solution, turn, guess, pastGuesses, gameOver, handleKeyPress } = useWordle()
+  const { solution, turn, guess, pastGuesses, gameOver, usedLetters, handleKeyPress } = useWordle()
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress)
 
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [handleKeyPress])
+
+  useEffect(() => {
+    console.log(usedLetters)
+  })
 
   return (
     <div className='game-grid'>

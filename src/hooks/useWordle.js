@@ -6,9 +6,13 @@ const useWordle = () => {
   const [guess, setGuess] = useState('')
   const [pastGuesses, setpastGuesses] = useState([...Array(7)])
   const [gameOver, setGameOver] = useState(false)
+  const [usedLetters, setUsedLetters] = useState({})
 
   const processGuess = () => {
+    //turn solution into array of letter strings
     let solutionArray = [...solution]
+
+    //turn current guess into array of letter strings and loop through color conditions
     let processedGuess = [...guess].map(l => {
       return {key: l, color: 'grey'}
     })
@@ -39,8 +43,40 @@ const useWordle = () => {
       return newGuesses
     })
 
+    //increment turn count
     setTurn(prevTurn => prevTurn + 1)
+
+    //reset current guess line
     setGuess('')
+
+    //color used letters
+    setUsedLetters((prevUsedLetters) => {
+      //clone previous version
+      let newLetters = {...prevUsedLetters}
+
+      //loop through latest guess
+      processedGuess.forEach((l) => {
+        //ex - l = {key: 'b', color: 'grey'}
+        
+        //ex - l.key = 'b'
+        //newLetters['b'] = 'grey' or undefined if letter was not used
+        let currentColor = newLetters[l.key]
+
+        if(l.color === 'grey' && currentColor  !== 'yellow' && currentColor !== 'green'){
+          newLetters[l.key] = 'grey'
+        } 
+
+        if(l.color === 'yellow' && currentColor !== 'green'){
+          newLetters[l.key] = 'yellow'
+        } 
+
+        if(l.color === 'green'){
+          newLetters[l.key] = 'green'
+        }
+      })
+
+      return newLetters
+    })
   }
 
 
@@ -67,7 +103,7 @@ const useWordle = () => {
   }
 
 
-  return {solution, turn, guess, pastGuesses, gameOver, handleKeyPress}
+  return {solution, turn, guess, pastGuesses, gameOver, usedLetters, handleKeyPress}
 }
 
 export default useWordle
