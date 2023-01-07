@@ -1,0 +1,1 @@
+export const wordlist = ['yellow', 'castle', 'season']

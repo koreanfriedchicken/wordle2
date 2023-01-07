@@ -8,7 +8,7 @@ import Modal from './components/Modal';
 
 function App() {
 
-  const { solution, turn, guess, pastGuesses, gameOver, usedLetters, handleKeyPress, handleMousePress } = useWordle()
+  const { solution, turn, guess, pastGuesses, gameWon, gameOver, usedLetters, handleKeyPress, handleMousePress, restartGame } = useWordle()
   const [showModal, setShowModal] = useState(false)
 
   
@@ -22,16 +22,20 @@ function App() {
         window.removeEventListener('mousedown', handleMousePress)
       }
     }
+  }, [handleKeyPress, handleMousePress, gameOver])
 
-    setTimeout(() => setShowModal(true), 1500)
-  }, [handleKeyPress, gameOver])
+  useEffect(() => {
+    if(gameOver){
+      setTimeout(() => setShowModal(true), 1250)
+    }
+  }, [gameOver, turn])
 
 
   return (
     <div className="App">
       <GameGrid pastGuesses={pastGuesses} guess={guess} turn={turn}/>
       <Keyboard usedLetters={usedLetters}/>
-      {showModal && <Modal turn={turn} />}
+      {showModal && <Modal turn={turn} gameWon={gameWon} solution={solution} setShowModal={setShowModal} restartGame={restartGame} />}
     </div>
   );
 }

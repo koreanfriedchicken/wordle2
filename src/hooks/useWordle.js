@@ -1,12 +1,19 @@
-import { useState } from "react"
-
+import { useEffect, useState } from "react"
+import { wordlist } from "../wordlist"
 const useWordle = () => {
-  const solution = 'yellow'
+  const [solution, setSolution] = useState('')
   const [turn, setTurn] = useState(0)
   const [guess, setGuess] = useState('')
   const [pastGuesses, setpastGuesses] = useState([...Array(7)])
+  const [gameWon, setGameWon] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [usedLetters, setUsedLetters] = useState({})
+
+  useEffect(() => {
+    const random = Math.floor(Math.random() * wordlist.length)
+
+    setSolution(wordlist[random])
+  }, [gameOver])
 
   const processGuess = () => {
     //turn solution into array of letter strings
@@ -29,7 +36,11 @@ const useWordle = () => {
   }
 
   const addGuess = (processedGuess) => {
-    if(solution === guess || turn >= 6){
+    if(solution === guess){
+      setGameWon(true)
+      setGameOver(true)
+    }
+    if(turn >= 6){
       setGameOver(true)
     }
     setpastGuesses((prevGuesses) => {
@@ -108,10 +119,20 @@ const useWordle = () => {
             })
         }
     }
-}
+  }
+
+  
+  const restartGame = () => {
+    setTurn(0)
+    setGuess('')
+    setpastGuesses([...Array(7)])
+    setGameWon(false)
+    setGameOver(false)
+    setUsedLetters({})
+  }
 
 
-  return {solution, turn, guess, pastGuesses, gameOver, usedLetters, handleKeyPress, handleMousePress}
+  return {solution, turn, guess, pastGuesses, gameWon, gameOver, usedLetters, handleKeyPress, handleMousePress, restartGame}
 }
 
 export default useWordle
